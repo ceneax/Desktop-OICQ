@@ -28,6 +28,8 @@ dependencies {
     val miraiVersion = "2.4.2"
     api("net.mamoe", "mirai-core-api", miraiVersion) // 编译代码使用
     runtimeOnly("net.mamoe", "mirai-core", miraiVersion) // 运行时使用
+
+//    implementation("com.husseinala.neon:glide:0.1.6")
 }
 
 tasks.test {

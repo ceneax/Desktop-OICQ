@@ -8,3 +8,16 @@ fun launch(block: suspend () -> Unit = {}) {
         block()
     }
 }
+
+fun Boolean.yes(block: () -> Unit): Boolean {
+    if (this) {
+        block()
+    }
+    return this
+}
+fun Boolean.no(block: () -> Unit): Boolean {
+    if (!this) {
+        block()
+    }
+    return this
+}
