@@ -1,16 +1,23 @@
 package window.login
 
 import OICQ
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.*
 import androidx.compose.runtime.savedinstancestate.savedInstanceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import base.baseWindow
 import ext.*
 import net.mamoe.mirai.Bot
@@ -97,25 +104,35 @@ fun loginWindow() = baseWindow(
     var loginState by savedInstanceState { LoginState() }
 
     // 开始绘制
-    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(value = username, onValueChange = {
-            username = it
-        }, singleLine = true, backgroundColor = Color.White)
-        TextField(value = password, onValueChange = {
-            password = it
-        }, singleLine = true, backgroundColor = Color.White, visualTransformation = PasswordVisualTransformation())
+    Box(modifier = Modifier.padding(20.dp)) {
+        Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = Modifier.height(20.dp))
 
-        Button(onClick = {
-            login(username, password) { success, msg ->
-                if (success) {
-                    disposeWindow()
-                    mainWindow()
-                } else {
-                    loginState = LoginState(true, success, msg)
+            TextField(value = username, onValueChange = {
+                username = it
+            }, singleLine = true, backgroundColor = MaterialTheme.colors.background, leadingIcon = {
+                Icon(imageVector = Icons.Default.AccountCircle)
+            })
+            TextField(value = password, onValueChange = {
+                password = it
+            }, singleLine = true, backgroundColor = MaterialTheme.colors.background, leadingIcon = {
+                Icon(imageVector = Icons.Default.Lock)
+            }, visualTransformation = PasswordVisualTransformation())
+
+            Spacer(modifier = Modifier.height(60.dp))
+
+            Button(modifier = Modifier.width(250.dp).clip(shape = CircleShape), onClick = {
+                login(username, password) { success, msg ->
+                    if (success) {
+                        disposeWindow()
+                        mainWindow()
+                    } else {
+                        loginState = LoginState(true, success, msg)
+                    }
                 }
+            }) {
+                Text(text = "登录")
             }
-        }) {
-            Text(text = "登录")
         }
     }
 
